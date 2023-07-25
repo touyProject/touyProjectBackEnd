@@ -140,3 +140,9 @@ gradle-app.setting
 ### Gradle Patch ###
 # Java heap dump
 *.hprof
+
+### QueryDsl ###
+src/main/generated
+
+### application.yaml ###
+src/main/resources/application.yaml
