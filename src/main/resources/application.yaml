@@ -1,0 +1,42 @@
+server:
+  port: 80
+
+debug: false
+management.endpoints.web.exposure.include: "*"
+
+logging:
+  level:
+    org.springframework.web.servlet: debug
+    org.hibernate.type.descriptor.sql.BasicBinder: trace
+
+spring:
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username:
+    password: 
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+
+
+  datasource:
+    url:
+    username:
+    password:
+    driver-class-name: org.mariadb.jdbc.Driver
+  jpa:
+    open-in-view: false
+    defer-datasource-initialization: true
+    hibernate.ddl-auto: none
+    show-sql: true
+    properties:
+      hibernate.format_sql: true
+  sql.init.mode: always
+  data:
+    redis:
+      host:
+      port:
+
+jwt :
+  secret : FKfaAwtkAGkaGEaghlEQgUNTgqegEGHqgagdQEYTazbzaGEaga
