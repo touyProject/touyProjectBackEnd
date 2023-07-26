@@ -2,9 +2,11 @@ package dev.ioexception.touyProjectBackEnd.service.commentService;
 
 import dev.ioexception.touyProjectBackEnd.dto.comment.CommentRequestDto;
 import dev.ioexception.touyProjectBackEnd.dto.comment.CommentResponseDto;
+import dev.ioexception.touyProjectBackEnd.entity.Post;
 import dev.ioexception.touyProjectBackEnd.entity.User;
 import dev.ioexception.touyProjectBackEnd.entity.comment.Comment;
 import dev.ioexception.touyProjectBackEnd.repository.commentRepository.CommentRepository;
+import dev.ioexception.touyProjectBackEnd.repository.postRepository.PostRepository;
 import dev.ioexception.touyProjectBackEnd.repository.userRepository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

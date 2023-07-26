@@ -1,5 +1,6 @@
 package dev.ioexception.touyProjectBackEnd.entity.comment;
 
+import dev.ioexception.touyProjectBackEnd.entity.Post;
 import dev.ioexception.touyProjectBackEnd.entity.User;
 import jakarta.persistence.*;
 import lombok.*;

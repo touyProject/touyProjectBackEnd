@@ -40,23 +40,23 @@ public class PostController {
     }
 
     // 2-1. 특정 카테고리에 속한 게시글 페이징 조회 기능
-    @GetMapping("/post/{categoryId}")
-    public ResponseEntity<Page<Post>> getAllPostByCategory(@PathVariable Long categoryId, @RequestParam(defaultValue = "0") int page,
-                                                           @RequestParam(defaultValue = "10") int size) {
-        Category category = new Category(categoryId);
-        Pageable pageable = PageRequest.of(page, size, Sort.by("postCreateAt").descending());
+//    @GetMapping("/post/{categoryId}")
+//    public ResponseEntity<Page<Post>> getAllPostByCategory(@PathVariable Long categoryId, @RequestParam(defaultValue = "0") int page,
+//                                                           @RequestParam(defaultValue = "10") int size) {
+//        Category category = new Category(categoryId);
+//        Pageable pageable = PageRequest.of(page, size, Sort.by("postCreateAt").descending());
+//
+//        Page<Post> posts = postService.getAllPostsByCategory(category, pageable);
+//        return new ResponseEntity<>(posts, HttpStatus.OK);
+//    }
 
-        Page<Post> posts = postService.getAllPostsByCategory(category, pageable);
-        return new ResponseEntity<>(posts, HttpStatus.OK);
-    }
-
-    // 2-2. 특정 카테고리에 속한 게시글 페이징 조회 기능 (간단하게)
-    @GetMapping("/post/{categoryId}")
-    public ResponseEntity<Page<Post>> getAllPostByCategory(@PathVariable Long categoryId, Pageable pageable) {
-        Category category = new Category(categoryId);
-        Page<Post> posts = postService.getAllPostsByCategory(category, pageable);
-        return new ResponseEntity<>(posts, HttpStatus.OK);
-    }
+//    // 2-2. 특정 카테고리에 속한 게시글 페이징 조회 기능 (간단하게)
+//    @GetMapping("/post/{categoryId}")
+//    public ResponseEntity<Page<Post>> getAllPostByCategory(@PathVariable Long categoryId, Pageable pageable) {
+//        Category category = new Category(categoryId);
+//        Page<Post> posts = postService.getAllPostsByCategory(category, pageable);
+//        return new ResponseEntity<>(posts, HttpStatus.OK);
+//    }
 
     // 3. 특정 게시글 상세 조회 기능
     @GetMapping("/post/{postId}")
@@ -73,10 +73,10 @@ public class PostController {
     }
 
     // 5. 게시글 삭제 기능
-    @DeleteMapping("post/{postId}")
+    @DeleteMapping("/post/{postId}")
     public ResponseEntity<Post> deletePost(@PathVariable Long postId) {
-        postService.deletePost(postId, token);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        postService.deletePost(postId);
+        return ResponseEntity.noContent().build();
     }
 
     // 6. 게시글 검색 기능 - title

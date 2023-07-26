@@ -6,6 +6,7 @@ import dev.ioexception.touyProjectBackEnd.dto.Post.PostUpdateRequestDto;
 import dev.ioexception.touyProjectBackEnd.entity.Category;
 import dev.ioexception.touyProjectBackEnd.entity.Post;
 import dev.ioexception.touyProjectBackEnd.entity.User;
+import dev.ioexception.touyProjectBackEnd.repository.categoryRepository.CategoryRepository;
 import dev.ioexception.touyProjectBackEnd.repository.postRepository.PostRepository;
 import dev.ioexception.touyProjectBackEnd.repository.userRepository.UserRepository;
 import jakarta.transaction.Transactional;
@@ -23,7 +24,6 @@ public class PostService {
     private final PostRepository postRepository;
     private final CategoryRepository categoryRepository;
     private final UserRepository userRepository;
-    private final JwtTokenUtil jwtTokenUtil;
 
     public Post createPost(Long categoryId, PostRequestDto requestDto) {
         Category category = categoryRepository.findById(categoryId)
@@ -42,12 +42,12 @@ public class PostService {
         requestDto.setUser(user);
         requestDto.setCategory(category);
         Post post = requestDto.toEntity();
-        postRepository.save(post);
-        return post;
+
+        return postRepository.save(post);
     }
 
     public List<Post> getAllPost(Category category) {
-        return postRepository.findAllByCategory(category);
+        return postRepository.findAllByCategoryAndDeleted(category);
     }
 
     @Transactional
@@ -56,7 +56,6 @@ public class PostService {
                 .orElseThrow(() -> new IllegalArgumentException("not found: " + postId));
 
         post.updateVisit();
-        postRepository.save(post);
         return new PostResponseDto(post);
     }
 
@@ -66,39 +65,39 @@ public class PostService {
                 .orElseThrow(() -> new IllegalArgumentException("not found: " + postId));
 
         post.update(updateRequestDto.getTitle(), updateRequestDto.getContent(), updateRequestDto.getTag());
-        postRepository.save(post);
+
         return post;
     }
 
     @Transactional
-    public Post deletePost(Long postId, String token) {
+    public Post deletePost(Long postId) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new IllegalArgumentException("not found: " + postId));
 
         post.updateisDeleted();
-        postRepository.save(post);
+
         return post;
     }
 
-    public Page<Post> getAllPostsByCategory(Category category, Pageable pageable) {
-        return postRepository.findAllByCategory(category, pageable);
-    }
+//    public Page<Post> getAllPostsByCategory(Category category, Pageable pageable) {
+//        return postRepository.findAllByCategoryAndDeleted(category, pageable);
+//    }
 
     @Transactional
     public List<Post> searchTitle(String title) {
-        List<Post> postList = postRepository.findByTitleContaining(title);
+        List<Post> postList = postRepository.findByTitleContainingAndDeleted(title);
         return postList;
     }
 
     @Transactional
     public List<Post> searchContent(String content) {
-        List<Post> postList = postRepository.findByContentContaining(content);
+        List<Post> postList = postRepository.findByContentContainingAndDeleted(content);
         return postList;
     }
 
     @Transactional
     public List<Post> searchTag(String tag) {
-        List<Post> postList = postRepository.findByTagContaining(tag);
+        List<Post> postList = postRepository.findByTagContainingAndDeleted(tag);
         return postList;
     }
 }
