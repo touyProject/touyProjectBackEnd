@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/post")
 public class PostController {
     private final PostService postService;
 
@@ -80,21 +79,21 @@ public class PostController {
     }
 
     // 6. 게시글 검색 기능 - title
-    @GetMapping("/post/search")
+    @GetMapping("/post/search/title")
     public ResponseEntity<List<Post>> searchTitle(@RequestParam String title) {
         List<Post> searchResult = postService.searchTitle(title);
         return new ResponseEntity<>(searchResult, HttpStatus.OK);
     }
 
     // 6. 게시글 검색 기능 - content
-    @GetMapping("/post/search")
+    @GetMapping("/post/search/content")
     public ResponseEntity<List<Post>> searchContent(@RequestParam String content) {
         List<Post> searchResult = postService.searchContent(content);
         return new ResponseEntity<>(searchResult, HttpStatus.OK);
     }
 
     // 6. 게시글 검색 기능 - tag
-    @GetMapping("/post/search")
+    @GetMapping("/post/search/tag")
     public ResponseEntity<List<Post>> searchTag(@RequestParam String tag) {
         List<Post> searchResult = postService.searchTag(tag);
         return new ResponseEntity<>(searchResult, HttpStatus.OK);

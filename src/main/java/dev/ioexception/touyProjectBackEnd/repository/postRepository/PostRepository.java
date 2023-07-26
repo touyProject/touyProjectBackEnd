@@ -12,10 +12,10 @@ import java.util.List;
 
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long> {
-    List<Post> findAllByCategoryAndDeleted(Category category);
-    List<Post> findByTitleContainingAndDeleted(@Param("title") String title);
-    List<Post> findByContentContainingAndDeleted(@Param("content") String content);
-    List<Post> findByTagContainingAndDeleted(@Param("tag") String tag);
+    List<Post> findAllByCategoryAndIsDeleted(Category category, boolean isDeleted);
+    List<Post> findByTitleContainingAndIsDeleted( String title, boolean isDeleted);
+    List<Post> findByContentContainingAndIsDeleted(String content, boolean isDeleted);
+    List<Post> findByTagContainingAndIsDeleted(String tag, boolean isDeleted);
 
 //    Page<Post> findAllByCategory(Category category, Pageable pageable);
 }
