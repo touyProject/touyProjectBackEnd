@@ -1,5 +1,6 @@
 package dev.ioexception.touyProjectBackEnd.dto.comment;
 
+import dev.ioexception.touyProjectBackEnd.entity.Post;
 import dev.ioexception.touyProjectBackEnd.entity.User;
 import dev.ioexception.touyProjectBackEnd.entity.comment.Comment;
 import lombok.AllArgsConstructor;

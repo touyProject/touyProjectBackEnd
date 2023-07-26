@@ -28,6 +28,9 @@ public class Category {
     @ManyToOne(fetch = FetchType.LAZY)
     private Category parentId;
 
+    @OneToMany(mappedBy = "post_id")
+    private List<Post> postList = new ArrayList<>();
+
     @Builder
     public Category(String topic, Category parentId) {
         this.topic = topic;

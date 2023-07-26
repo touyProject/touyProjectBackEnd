@@ -3,6 +3,7 @@ package dev.ioexception.touyProjectBackEnd.repository.commentRepository.Impl;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import dev.ioexception.touyProjectBackEnd.dto.comment.CommentResponseDto;
+import dev.ioexception.touyProjectBackEnd.entity.Post;
 import dev.ioexception.touyProjectBackEnd.entity.QUser;
 import dev.ioexception.touyProjectBackEnd.entity.comment.Comment;
 import dev.ioexception.touyProjectBackEnd.entity.comment.QComment;
