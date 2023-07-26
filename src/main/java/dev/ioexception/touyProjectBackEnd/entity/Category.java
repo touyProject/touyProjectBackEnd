@@ -21,15 +21,12 @@ public class Category {
     @Column(length = 10, nullable = false)
     private String topic;
 
-    @OneToMany(mappedBy = "category_pid")
+    @OneToMany(mappedBy = "parentId")
     private List<Category> cartgories = new ArrayList<>();
 
     @JoinColumn(name = "paret_category_id")
     @ManyToOne(fetch = FetchType.LAZY)
     private Category parentId;
-
-    @OneToMany(mappedBy = "post_id")
-    private List<Post> postList = new ArrayList<>();
 
     @Builder
     public Category(String topic, Category parentId) {

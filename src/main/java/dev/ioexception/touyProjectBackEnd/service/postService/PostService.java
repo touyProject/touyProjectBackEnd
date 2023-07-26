@@ -47,7 +47,8 @@ public class PostService {
     }
 
     public List<Post> getAllPost(Category category) {
-        return postRepository.findAllByCategoryAndDeleted(category);
+
+        return postRepository.findAllByCategoryAndIsDeleted(category, false);
     }
 
     @Transactional
@@ -85,19 +86,19 @@ public class PostService {
 
     @Transactional
     public List<Post> searchTitle(String title) {
-        List<Post> postList = postRepository.findByTitleContainingAndDeleted(title);
+        List<Post> postList = postRepository.findByTitleContainingAndIsDeleted(title, false);
         return postList;
     }
 
     @Transactional
     public List<Post> searchContent(String content) {
-        List<Post> postList = postRepository.findByContentContainingAndDeleted(content);
+        List<Post> postList = postRepository.findByContentContainingAndIsDeleted(content, false);
         return postList;
     }
 
     @Transactional
     public List<Post> searchTag(String tag) {
-        List<Post> postList = postRepository.findByTagContainingAndDeleted(tag);
+        List<Post> postList = postRepository.findByTagContainingAndIsDeleted(tag, false);
         return postList;
     }
 }
