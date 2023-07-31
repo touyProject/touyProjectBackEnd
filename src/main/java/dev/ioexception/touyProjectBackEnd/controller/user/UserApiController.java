@@ -44,7 +44,7 @@ public class UserControllerImpl implements UserController {
 
     @GetMapping("/signup")
     public String getSignup() {
-        if (SecurityUtil.getCurrentUser() != null) {
+        if (SecurityUtil.getCurrentUser().isAuthenticated()) {
             return "index";
         }
         return "sign-up";
@@ -81,7 +81,7 @@ public class UserControllerImpl implements UserController {
 
     @PatchMapping("/modifyPassword")
     public ResponseEntity<HttpStatus> patchModifyPassword(ModifyPassword modifyPassword) {
-        String email = SecurityUtil.getCurrentUser();
+        String email = SecurityUtil.getCurrentUser().getName();
         if (userService.modifyPassword(email, modifyPassword)) {
 
             return new ResponseEntity<>(HttpStatus.OK);
@@ -99,7 +99,7 @@ public class UserControllerImpl implements UserController {
 
     @PatchMapping("/modifyNickname")
     public ResponseEntity<HttpStatus> patchModifyNickname(ModifyNickname modifyNickname) {
-        String email = SecurityUtil.getCurrentUser();
+        String email = SecurityUtil.getCurrentUser().getName();
         if (userService.modifyNickname(email, modifyNickname)) {
 
             return new ResponseEntity<>(HttpStatus.OK);

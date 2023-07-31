@@ -3,9 +3,12 @@ package dev.ioexception.touyProjectBackEnd.controller.post;
 import dev.ioexception.touyProjectBackEnd.dto.Post.PostRequestDto;
 import dev.ioexception.touyProjectBackEnd.dto.Post.PostResponseDto;
 import dev.ioexception.touyProjectBackEnd.dto.Post.PostUpdateRequestDto;
+import dev.ioexception.touyProjectBackEnd.dto.Post.PostsResponseDto;
 import dev.ioexception.touyProjectBackEnd.entity.Category;
 import dev.ioexception.touyProjectBackEnd.entity.Post;
 import dev.ioexception.touyProjectBackEnd.service.postService.PostService;
+import dev.ioexception.touyProjectBackEnd.util.SecurityUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 public class PostController {
     private final PostService postService;
@@ -26,15 +30,17 @@ public class PostController {
 
     // 1. 게시글 작성 기능
     @PostMapping("/post/{categoryId}")
-    public ResponseEntity<Post> createPost(@PathVariable Long categoryId, @RequestBody PostRequestDto postRequestDto) {
+    public ResponseEntity<PostResponseDto> createPost(@PathVariable Long categoryId,
+                                                      @RequestBody PostRequestDto postRequestDto) {
         Post post = postService.createPost(categoryId, postRequestDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(post);
+        PostResponseDto responseDto = new PostResponseDto(post);
+        return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
     }
 
     // 2. 모든 게시글 조회 기능
-    @GetMapping("/post/{categoryId}")
-    public ResponseEntity<List<Post>> getAllPost(@PathVariable Long categoryId) {
-        List<Post> post = postService.getAllPost(new Category(categoryId));
+    @GetMapping("/posts/{categoryId}")
+    public ResponseEntity<List<PostResponseDto>> getAllPost(@PathVariable Long categoryId) {
+        List<PostResponseDto> post = postService.getAllPost(categoryId);
         return new ResponseEntity<>(post, HttpStatus.OK);
     }
 
@@ -59,43 +65,50 @@ public class PostController {
 
     // 3. 특정 게시글 상세 조회 기능
     @GetMapping("/post/{postId}")
-    public PostResponseDto getPostById(@PathVariable Long postId) {
+    public ResponseEntity<PostResponseDto> getPostById(@PathVariable Long postId) {
+        PostResponseDto postResponseDto = postService.getPostById(postId);
 
-        return postService.getPostById(postId);
+        return ResponseEntity.ok(postResponseDto);
     }
 
     // 4. 게시글 수정 기능
     @PutMapping("/post/{postId}")
-    public ResponseEntity<Post> updatePost(@PathVariable Long postId, @RequestBody PostUpdateRequestDto postUpdateResponseDto) {
-        postService.updatePost(postId, postUpdateResponseDto);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<PostResponseDto> updatePost(@PathVariable Long postId,
+                                                      @RequestBody PostUpdateRequestDto postUpdateResponseDto) {
+        PostResponseDto post = postService.updatePost(postId, postUpdateResponseDto);
+        return ResponseEntity.ok(post);
     }
 
     // 5. 게시글 삭제 기능
     @DeleteMapping("/post/{postId}")
-    public ResponseEntity<Post> deletePost(@PathVariable Long postId) {
+    public ResponseEntity<Void> deletePost(@PathVariable Long postId) {
         postService.deletePost(postId);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().build();
     }
 
     // 6. 게시글 검색 기능 - title
-    @GetMapping("/post/search/title")
-    public ResponseEntity<List<Post>> searchTitle(@RequestParam String title) {
-        List<Post> searchResult = postService.searchTitle(title);
+    @GetMapping("/post/{categoryId}/search/title")
+    public ResponseEntity<List<PostResponseDto>> searchTitle(@PathVariable("categoryId") Long categoryId,
+                                                             @RequestParam String title) {
+        List<PostResponseDto> searchResult = postService.searchTitle(title, categoryId);
+
         return new ResponseEntity<>(searchResult, HttpStatus.OK);
     }
 
     // 6. 게시글 검색 기능 - content
-    @GetMapping("/post/search/content")
-    public ResponseEntity<List<Post>> searchContent(@RequestParam String content) {
-        List<Post> searchResult = postService.searchContent(content);
+    @GetMapping("/post/{categoryId}/search/content")
+    public ResponseEntity<List<PostResponseDto>> searchContent(@PathVariable("categoryId") Long categoryId,
+                                                               @RequestParam String content) {
+        List<PostResponseDto> searchResult = postService.searchContent(content, categoryId);
+
         return new ResponseEntity<>(searchResult, HttpStatus.OK);
     }
 
     // 6. 게시글 검색 기능 - tag
-    @GetMapping("/post/search/tag")
-    public ResponseEntity<List<Post>> searchTag(@RequestParam String tag) {
-        List<Post> searchResult = postService.searchTag(tag);
+    @GetMapping("/post/{categoryId}/search/tag")
+    public ResponseEntity<List<PostResponseDto>> searchTag(@PathVariable("categoryId") Long categoryId,
+                                                @RequestParam String tag) {
+        List<PostResponseDto> searchResult = postService.searchTag(tag, categoryId);
         return new ResponseEntity<>(searchResult, HttpStatus.OK);
     }
 }
