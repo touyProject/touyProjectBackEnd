@@ -12,17 +12,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PostRequestDto {
     private User user;
+    private Category category;
     private String title;
     private String content;
-    private Category category;
     private String tag;
 
     public Post toEntity() {
         return Post.builder()
                 .user(user)
+                .category(category)
                 .title(title)
                 .content(content)
-                .category(category)
                 .tag(tag)
                 .build();
     }
