@@ -3,16 +3,9 @@ package dev.ioexception.touyProjectBackEnd.controller.post;
 import dev.ioexception.touyProjectBackEnd.dto.Post.PostRequestDto;
 import dev.ioexception.touyProjectBackEnd.dto.Post.PostResponseDto;
 import dev.ioexception.touyProjectBackEnd.dto.Post.PostUpdateRequestDto;
-import dev.ioexception.touyProjectBackEnd.dto.Post.PostsResponseDto;
-import dev.ioexception.touyProjectBackEnd.entity.Category;
 import dev.ioexception.touyProjectBackEnd.entity.Post;
 import dev.ioexception.touyProjectBackEnd.service.postService.PostService;
-import dev.ioexception.touyProjectBackEnd.util.SecurityUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,10 +14,11 @@ import java.util.List;
 
 @Slf4j
 @RestController
-public class PostController {
+@CrossOrigin(origins = "*")
+public class PostApiController {
     private final PostService postService;
 
-    public PostController(PostService postService) {
+    public PostApiController(PostService postService) {
         this.postService = postService;
     }
 

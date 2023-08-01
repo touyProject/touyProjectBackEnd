@@ -13,19 +13,21 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
+@CrossOrigin(origins = "*")
 public class CommentApiController {
 
     private final CommentService commentService;
 
-    @PostMapping("/posts/comment/{postId}")
-    public ResponseEntity<Comment> commentSave(@PathVariable Long postId, @RequestBody CommentRequestDto requestDto) {
+    @PostMapping("/post/comment/{postId}")
+    public ResponseEntity<CommentResponseDto> commentSave(@PathVariable Long postId, @RequestBody CommentRequestDto requestDto) {
         Comment comment = commentService.commentSave(postId, requestDto);
+        CommentResponseDto responseDto = new CommentResponseDto(comment);
 
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(comment);
+                .body(responseDto);
     }
 
-    @DeleteMapping("/comment/{commentId}")
+    @DeleteMapping("/post/comment/{commentId}")
     public ResponseEntity<Void> deletedComment(@PathVariable Long commentId) {
         Comment comment = commentService.isDeletedUpdate(commentId);
 
@@ -33,7 +35,7 @@ public class CommentApiController {
 
     }
 
-    @GetMapping("/post/comment/{postId}")
+    @GetMapping("/post/comments/{postId}")
     public ResponseEntity<List<CommentResponseDto>> getComments(@PathVariable Long postId) {
 
         List<CommentResponseDto> commentResponseDtos = commentService.getAllComments(postId);
