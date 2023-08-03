@@ -16,15 +16,16 @@ public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "category_id")
     private Long categoryPId;
 
-    @Column(length = 10, nullable = false)
+    @Column(name = "topic",length = 10, nullable = false)
     private String topic;
 
     @OneToMany(mappedBy = "parentId")
     private List<Category> cartgories = new ArrayList<>();
 
-    @JoinColumn(name = "paret_category_id")
+    @JoinColumn(name = "category_pid")
     @ManyToOne(fetch = FetchType.LAZY)
     private Category parentId;
 

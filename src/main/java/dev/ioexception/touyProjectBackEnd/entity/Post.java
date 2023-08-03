@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "post_id")
     private Long postId;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -25,10 +26,10 @@ public class Post {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @Column(length = 100, nullable = false)
+    @Column(name = "title", length = 100, nullable = false)
     private String title;
 
-    @Column(length = 2000, columnDefinition = "TEXT", nullable = false)
+    @Column(name = "content", length = 2000, columnDefinition = "TEXT", nullable = false)
     private String content;
 
     @Column(name = "view", nullable = false)
@@ -37,15 +38,15 @@ public class Post {
     @Column(name = "tag", nullable = false)
     private String tag;
 
-    @Column(nullable = false)
+    @Column(name = "is_deleted",nullable = false)
     private boolean isDeleted;
 
     @CreatedDate
-    @Column(nullable = false)
+    @Column(name = "post_create_at", nullable = false)
     private LocalDateTime postCreateAt;
 
     @LastModifiedDate
-    @Column(nullable = false)
+    @Column(name = "post_modify_at",nullable = false)
     private LocalDateTime postModifyAt;
 
     @Builder
@@ -71,7 +72,7 @@ public class Post {
     public void updateVisit() {
         this.countVisit++;
     }
-    public void updateisDeleted() {
+    public void updateIsDeleted() {
         this.isDeleted = true;
     }
 }

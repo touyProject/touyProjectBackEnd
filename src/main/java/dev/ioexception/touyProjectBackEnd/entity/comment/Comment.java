@@ -39,10 +39,10 @@ public class Comment {
     private String content;
 
     @ColumnDefault("FALSE")
-    @Column(name = "isDeleted", nullable = false)
+    @Column(name = "is_deleted", nullable = false)
     private Boolean isDeleted;
 
-    @Column(name = "commentCreateAt", nullable = false)
+    @Column(name = "comment_create_at", nullable = false)
     private LocalDateTime commentCreateAt;
 
     @Builder
