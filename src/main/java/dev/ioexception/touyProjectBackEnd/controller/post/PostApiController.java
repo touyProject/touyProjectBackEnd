@@ -5,6 +5,7 @@ import dev.ioexception.touyProjectBackEnd.dto.Post.PostResponseDto;
 import dev.ioexception.touyProjectBackEnd.dto.Post.PostUpdateRequestDto;
 import dev.ioexception.touyProjectBackEnd.entity.Post;
 import dev.ioexception.touyProjectBackEnd.service.postService.PostService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,26 +16,24 @@ import java.util.List;
 @Slf4j
 @RestController
 @CrossOrigin(origins = "*")
+@RequiredArgsConstructor
 public class PostApiController {
     private final PostService postService;
 
-    public PostApiController(PostService postService) {
-        this.postService = postService;
-    }
-
-    // 1. 게시글 작성 기능
     @PostMapping("/post/{categoryId}")
     public ResponseEntity<PostResponseDto> createPost(@PathVariable Long categoryId,
                                                       @RequestBody PostRequestDto postRequestDto) {
         Post post = postService.createPost(categoryId, postRequestDto);
         PostResponseDto responseDto = new PostResponseDto(post);
+
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
     }
 
-    // 2. 모든 게시글 조회 기능
     @GetMapping("/posts/{categoryId}")
     public ResponseEntity<List<PostResponseDto>> getAllPost(@PathVariable Long categoryId) {
+        // TODO : categoryId 검증 필요
         List<PostResponseDto> post = postService.getAllPost(categoryId);
+
         return new ResponseEntity<>(post, HttpStatus.OK);
     }
 
@@ -70,6 +69,7 @@ public class PostApiController {
     public ResponseEntity<PostResponseDto> updatePost(@PathVariable Long postId,
                                                       @RequestBody PostUpdateRequestDto postUpdateResponseDto) {
         PostResponseDto post = postService.updatePost(postId, postUpdateResponseDto);
+
         return ResponseEntity.ok(post);
     }
 
@@ -77,6 +77,7 @@ public class PostApiController {
     @DeleteMapping("/post/{postId}")
     public ResponseEntity<Void> deletePost(@PathVariable Long postId) {
         postService.deletePost(postId);
+
         return ResponseEntity.ok().build();
     }
 
@@ -103,6 +104,7 @@ public class PostApiController {
     public ResponseEntity<List<PostResponseDto>> searchTag(@PathVariable("categoryId") Long categoryId,
                                                 @RequestParam String tag) {
         List<PostResponseDto> searchResult = postService.searchTag(tag, categoryId);
+
         return new ResponseEntity<>(searchResult, HttpStatus.OK);
     }
 }

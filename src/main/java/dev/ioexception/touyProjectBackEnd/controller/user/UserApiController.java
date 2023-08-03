@@ -79,9 +79,7 @@ public class UserApiController {
 
     @GetMapping("/modifyPassword")
     public String getModifyPassword() {
-        if (SecurityUtil.getCurrentUser() == null) {
-            return null;
-        }
+
         return "user/modifyPassword";
     }
 
@@ -97,9 +95,7 @@ public class UserApiController {
 
     @GetMapping("/modifyNickname")
     public String getModifyNickname() {
-        if (SecurityUtil.getCurrentUser() == null) {
-            return null;
-        }
+
         return "user/modifyPassword";
     }
 
@@ -115,9 +111,7 @@ public class UserApiController {
 
     @GetMapping("/helppw")
     public String getSearchPassword() {
-        if (SecurityUtil.getCurrentUser() != null) {
-            return "index";
-        }
+
         return "user/searchPassword";
     }
 
@@ -134,9 +128,6 @@ public class UserApiController {
 
     @GetMapping("/findpassword")
     public ResponseEntity<HttpStatus> getFindPassword(@RequestParam(value = "code") String code) {
-        if (SecurityUtil.getCurrentUser() != null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
         if (!userService.validationEmail(code)) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
